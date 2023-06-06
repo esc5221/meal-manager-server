@@ -1,2 +1,4 @@
 django==4.2.1
 django-ninja==0.22.1
+requests==2.31.0
+fatsecret==0.4.0
