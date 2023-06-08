@@ -2,7 +2,8 @@ from django.conf import settings
 from ninja import NinjaAPI
 from ninja.security import django_auth
 
-api = NinjaAPI(auth=django_auth, csrf=True)
+api = NinjaAPI(auth=django_auth)  # , csrf=True)
+api._validate = lambda: None
 
 from user.views import router as user_router
 from food.views import router as food_router
