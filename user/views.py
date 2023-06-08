@@ -32,6 +32,7 @@ class UserSchema(Schema):
 
 @router.post(
     "/signup",
+    response={200: UserSchema},
     auth=None,
 )
 def post_signup(request, params: UserCreateSchema):
@@ -41,6 +42,7 @@ def post_signup(request, params: UserCreateSchema):
 
 @router.post(
     "/login",
+    response={200: UserSchema},
     auth=None,
 )
 def post_login(request, params: UserLoginSchema):
@@ -49,7 +51,7 @@ def post_login(request, params: UserLoginSchema):
     user = authenticate(request, email=params.email, password=params.password)
     if user is not None:
         login(request, user)
-        response = Response({"success": True})
+        response = Response(UserSchema.from_orm(user).dict(), status=200, headers={})
         response.set_cookie("sessionid", request.session.session_key)
         return response
     else:
