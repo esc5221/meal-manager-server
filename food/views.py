@@ -28,11 +28,19 @@ def list_food(request, params: FoodListParams = Query(...)):
 
 
 @router.get(
+    "/{id}",
+    response={200: FoodSchema},
+)
+def get_food(request, id):
+    return Food.objects.get(id=id)
+
+
+@router.get(
     "/category",
     response={200: List[FoodCategorySchema]},
 )
 @paginate()
-def list_category(request, params: FoodCategoryParams = Query(...)):
+def list_food_category(request, params: FoodCategoryParams = Query(...)):
     return (
         Food.objects.values("category")
         .annotate(food_count=Count("category"))
