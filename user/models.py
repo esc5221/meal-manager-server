@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
-from base.models import BaseModel
+from base.models import CommonModel
 
 
 class User(AbstractUser):
@@ -17,7 +17,7 @@ class User(AbstractUser):
         return self.email
 
 
-class Profile(BaseModel):
+class Profile(CommonModel):
     user = models.OneToOneField("User", on_delete=models.CASCADE)
     birth_year = models.IntegerField(_("birth year"), null=True)
     weight = models.DecimalField(

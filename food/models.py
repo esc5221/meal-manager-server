@@ -1,8 +1,8 @@
 from django.db import models
-from base.models import BaseModel
+from base.models import CommonModel
 
 
-class Food(BaseModel):
+class Food(CommonModel):
     db_group = models.CharField(max_length=50, null=True)
     code = models.CharField(max_length=50, null=True)
     category = models.CharField(max_length=100)
@@ -31,11 +31,11 @@ class Food(BaseModel):
     )
 
 
-class CustomServingUnit(BaseModel):
+class CustomServingUnit(CommonModel):
     food = models.ForeignKey("Food", on_delete=models.CASCADE)
     unit = models.CharField(max_length=50, unique=True)
     ratio = models.DecimalField(max_digits=8, decimal_places=2)
 
 
-class Manufacturer(BaseModel):
+class Manufacturer(CommonModel):
     name = models.CharField(max_length=100, unique=True)
