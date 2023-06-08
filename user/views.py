@@ -6,11 +6,11 @@ from ninja.errors import HttpError
 from ninja.responses import Response
 from ninja.errors import AuthenticationError
 
+from user.schemas import ProfileSchema
+from user.models import User, Profile
+
 
 router = Router(tags=["user"])
-
-
-from user.models import User
 
 
 class UserCreateSchema(Schema):
@@ -60,14 +60,29 @@ def post_login(request, params: UserLoginSchema):
 
 @router.post("/logout")
 def post_logout(request):
-    if request.user.is_authenticated:
-        logout(request)
-        response = Response({"success": True})
-        response.delete_cookie("sessionid")
-        return response
+    logout(request)
+    response = Response({"success": True})
+    response.delete_cookie("sessionid")
+    return response
 
 
 @router.get("/user", response={200: UserSchema})
 def get_user(request):
-    if request.user.is_authenticated:
-        return request.user
+    return request.user
+
+
+"""
+"""
+
+
+@router.get("/profile", response={200: ProfileSchema})
+def get_profile(request):
+    return request.user.profile
+
+
+@router.post("/profile", response={200: ProfileSchema})
+def post_profile(request, params: ProfileSchema):
+    profile, _ = Profile.objects.update_or_create(
+        user=request.user, defaults=params.dict()
+    )
+    return profile
