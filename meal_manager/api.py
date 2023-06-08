@@ -1,13 +1,16 @@
 from django.conf import settings
 from ninja import NinjaAPI
+from ninja.security import django_auth
 
-api = NinjaAPI()
+api = NinjaAPI(auth=django_auth, csrf=True)
 
+from user.views import router as user_router
 from food.views import router as food_router
 from meal.views import router as meal_router
 
-api.add_router("food/", food_router)
-api.add_router("meal/", meal_router)
+api.add_router("users/", user_router)
+api.add_router("foods/", food_router)
+api.add_router("meals/", meal_router)
 
 from meal_manager.exceptions import api_exception_response
 
