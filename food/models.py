@@ -31,5 +31,11 @@ class Food(BaseModel):
     )
 
 
+class CustomServingUnit(BaseModel):
+    food = models.ForeignKey("Food", on_delete=models.CASCADE)
+    unit = models.CharField(max_length=50, unique=True)
+    ratio = models.DecimalField(max_digits=8, decimal_places=2)
+
+
 class Manufacturer(BaseModel):
     name = models.CharField(max_length=100, unique=True)
