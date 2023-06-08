@@ -39,7 +39,7 @@ def list_food(request, params: FoodListParams = Query(...)):
 
 @router.post(
     "/food",
-    response={200: FoodCreateSchema},
+    response={200: FoodSchema},
 )
 def post_food(request, params: FoodCreateSchema):
     return Food.objects.create(**params.dict())

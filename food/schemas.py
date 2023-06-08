@@ -18,7 +18,7 @@ class CustomServingUnitSchema(Schema):
     original_serving: Optional[str]
 
     def resolve_original_serving(self, obj):
-        return f"1{obj.unit} = {obj.ratio} {obj.food.serving_unit}"
+        return f"1{obj.unit} = {obj.ratio*obj.food.serving_amount}{obj.food.serving_unit}"
 
 
 """
@@ -60,10 +60,16 @@ class FoodCreateSchema(Schema):
     manufacturer_id: Optional[int] = None
 
 
+class FoodSimpleSchema(Schema):
+    id: int
+    category: str
+    name: str
+
+
 class FoodSchema(Schema):
     id: int
-    db_group: str
-    code: str
+    db_group: Optional[str]
+    code: Optional[str]
 
     category: str
     name: str
@@ -76,7 +82,7 @@ class FoodSchema(Schema):
     carbohydrate: float
     sugar: Optional[float]
     sodium: Optional[float]
-    manufacturer: ManufacturerSchema
+    manufacturer: Optional[ManufacturerSchema]
 
 
 class FoodDetailSchema(FoodSchema):
